@@ -28,6 +28,8 @@ const AppStyles = StyleSheet.create({
     borderWidth:1,
     width:'100%',
     alignItems:'flex-start',
+    fontSize:24,
+    marginBottom:20,
    },
 
 //Icon
@@ -42,10 +44,10 @@ const AppStyles = StyleSheet.create({
    button:{
     backgroundColor:'darkred',
     width:'95%',
-    height:'15%',
     alignItems:'center',
     borderRadius:10,
     justifyContent:"center",
+    marginBottom:10,
    },
 
    buttonText:{

@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
 
   //Header
   header:{
-    flex:1,
+    marginTop:50,
+    flex:0.4,
     justifyContent:'flex-end',
     alignItems:'center',
     marginBottom:30,
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
 
   //Body
   body:{
-    flex:2,
+    flex:1,
     width:'100%',
     alignItems:'center',
   },
@@ -31,17 +32,17 @@ const styles = StyleSheet.create({
     borderRadius:10,
     alignItems:'center',
     width:'90%',
-    height:'70%',
+    // height:'60%',
+    justifyContent:"space-evenly",
+    flex:1,
     paddingVertical:30,
-    paddingHorizontal:10,
+
   },
 
   inputItem:{
     width: '95%',
     flexDirection: 'row',
     justifyContent:'center',
-    marginBottom: 30,
-    height:'10%',
   },
 
   iconGroup:{
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     width:70,
     right:10,   
-    bottom:'15%',
+    bottom:'45%',
   },
 
   terms:{
@@ -61,6 +62,11 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'flex-start',
+  },
+
+//Footer
+  footer:{
+    flex:0.5,
   },
 });
 export default styles;

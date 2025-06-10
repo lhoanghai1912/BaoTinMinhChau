@@ -10,9 +10,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jcenter.bintray.com/' }
+
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
+        classpath 'com.android.tools.build:gradle:4.1.0' // hoặc phiên bản mới hơn
+
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
     }

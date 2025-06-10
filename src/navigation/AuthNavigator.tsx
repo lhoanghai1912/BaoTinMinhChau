@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../screens/Login/LoginScreen';
 import RegisterScreen from '../screens/Register/RegisterScreen';
 import {Screen_Name} from './ScreenName';
+import DateTimeScreen from '../screens/Register/dateTime';
 
 const Stack = createNativeStackNavigator();
 
