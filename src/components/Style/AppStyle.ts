@@ -2,22 +2,23 @@ import { StyleSheet } from "react-native";
 
 const AppStyles = StyleSheet.create({
 //Text  
-    text:{
-        fontFamily: 'Arial',    // Font mặc định
-        fontSize: 20, 
-        fontWeight:300,          
-        color: '#333',  
-    },
-    headerText:{
-        fontFamily:"Arial",
-        fontSize:30,
-        color:'#333',
+   text:{
+      fontSize: 20, 
+      fontWeight:300,          
+      color: '#333',  
+      textAlign:'center',
    },
-
+   headerText:{
+      fontFamily:"Arial",
+      fontSize:26,
+      color:'#333',
+      marginBottom: 16,
+      textAlign: 'center'
+   },
    smallText:{
-    fontSize:16,
-    color: '#333',  
-    fontWeight:500,          
+    fontSize:18,
+    color: 'darkred',  
+    textAlign:'center',
    },
 
 //Input
@@ -29,13 +30,14 @@ const AppStyles = StyleSheet.create({
     width:'100%',
     alignItems:'flex-start',
     fontSize:24,
-    marginBottom:20,
+   //  marginBottom:16,
    },
 
 //Icon
    icon:{
     resizeMode:'contain',
     zIndex:1,
+   //  padding:3,
     height:30,
     width:30,
    },
@@ -43,17 +45,18 @@ const AppStyles = StyleSheet.create({
 //Button
    button:{
     backgroundColor:'darkred',
-    width:'95%',
-    alignItems:'center',
+   //  alignItems:'center',
     borderRadius:10,
     justifyContent:"center",
-    marginBottom:10,
+    alignContent:'center',
    },
 
    buttonText:{
     color:'white',
     fontSize:20,
     fontWeight:500,
+    width:'100%',
+    textAlign:'center',
     
    }
 })

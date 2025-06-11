@@ -4,45 +4,44 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor:'darkred',
-    alignContent:'center',
-
   },
 
   //Header
   header:{
-    marginTop:50,
-    flex:0.4,
+    flex:1,
     justifyContent:'flex-end',
     alignItems:'center',
-    marginBottom:30,
+    marginBottom:32,
+  },
+  headerText:{
+    fontSize: 40,
+    marginBottom: 9,
+    color: 'yellow',
+    fontWeight: 'bold',
   },
 
   //Body
   body:{
     flex:1,
-    width:'100%',
     alignItems:'center',
   },
 
   wrapContent:{
+    // flex:1,
     backgroundColor:'white',
-    borderRadius:10,
-    alignItems:'center',
-    width:'90%',
-    // height:'60%',
-    justifyContent:"space-evenly",
-    flex:1,
+    borderRadius:20,
+    // alignItems:'center',
+    width:'95%',
+    paddingHorizontal:9,
     paddingVertical:30,
 
   },
 
   inputItem:{
-    width: '95%',
     flexDirection: 'row',
     justifyContent:'center',
+    marginBottom:9,
   },
 
   iconGroup:{
@@ -53,20 +52,24 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     width:70,
     right:10,   
-    bottom:'45%',
+    bottom:'25%',
   },
-
+  forgotPassword:{
+    marginBottom: 9,
+    marginTop: 5,
+  },
   terms:{
-    marginTop:20,
-    width:'95%',
+    // paddingHorizontal:9,
+    // flex:1,
+    width:'100%',
     flexDirection:'row',
     alignItems:'center',
-    justifyContent:'flex-start',
+    marginBottom:16,
   },
 
 //Footer
   footer:{
-    flex:0.5,
+    flex:1,
   },
 });
 export default styles;

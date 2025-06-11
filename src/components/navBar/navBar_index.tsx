@@ -22,12 +22,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-    height: 100,
+    height: 70,
     backgroundColor: 'darkred', // Customize your navbar color
   },
   navTitle: {
     color: 'white',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     alignItems: 'center',

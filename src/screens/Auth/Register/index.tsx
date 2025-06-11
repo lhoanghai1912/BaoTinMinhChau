@@ -12,16 +12,14 @@ import {
   Button,
   Image,
 } from 'react-native';
-import styles from './Register_style';
-import NavBar from '../../components/navBar/navBar_index';
-import AppStyles from '../../components/Style/AppStyle';
-import GenderModal from '../../components/Modal/GenderModal';
-import {navigate} from '../../navigation/RootNavigator';
-import {Screen_Name} from '../../navigation/ScreenName';
-import DatePicker from 'react-native-date-picker';
-import DateTimeModal from '../../components/Modal/DateTimeModal';
+import styles from './style';
+import NavBar from '../../../components/navBar/navBar_index';
+import AppStyles from '../../../components/Style/AppStyle';
+import GenderModal from '../../../components/Modal/GenderModal';
+
+import DateTimeModal from '../../../components/Modal/DateTimeModal';
 import moment from 'moment';
-import images from '../../constants/Images/images';
+import images from '../../../constants/Images/images';
 
 const RegisterScreen = ({navigation}) => {
   const [modalGenderVisible, setModalGenderVisible] = useState(false);

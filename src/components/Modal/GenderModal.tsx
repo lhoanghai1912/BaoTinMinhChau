@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal, Text, TouchableOpacity, View} from 'react-native';
 import AppStyles from '../Style/AppStyle';
-import styles from '../../screens/Login/Login_style';
+import styles from '../../screens/Login/style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface GenderTypeProps {
