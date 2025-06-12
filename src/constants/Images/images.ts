@@ -6,5 +6,7 @@ const images ={
     unchecked:require('../../assets/Icons/unchecked.png'),
     back:require('../../assets/Icons/left-arrow.png'),
     qr:require('../../assets/Icons/scanner.png'),
+    logo:require('../../assets/Icons/logo.png'),
+
 }
 export default images;

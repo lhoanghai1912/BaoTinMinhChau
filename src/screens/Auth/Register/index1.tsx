@@ -212,7 +212,7 @@ const RegisterScreen1 = (props: Props) => {
       <SexModal
         visible={isSexModal}
         onClose={() => setIsSexModal(false)}
-        onSelectedSex={data => handleSexSelected(data)}
+        onSelectedSex={data => onSexConfirmed(data)}
         dataProps={sexData}
       />
     </View>

@@ -15,12 +15,14 @@ import images from '../../constants/Images/images';
 import {Screen_Name} from '../../navigation/ScreenName';
 import {navigate} from '../../navigation/RootNavigator';
 import TermsModal from '../../components/Modal/TermsModal';
+import LoadingScreen from '../../components/Loading';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('1234');
   const [isVisible, setIsVisible] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Thêm state cho Loading
   const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
   const disabled =
     username.length > 0 && password.length > 0 && checked == true;
