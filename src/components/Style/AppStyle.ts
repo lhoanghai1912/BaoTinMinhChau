@@ -47,6 +47,7 @@ const AppStyles = StyleSheet.create({
     backgroundColor:'darkred',
    //  alignItems:'center',
     borderRadius:10,
+    width:'90%',
     justifyContent:"center",
     alignContent:'center',
    },

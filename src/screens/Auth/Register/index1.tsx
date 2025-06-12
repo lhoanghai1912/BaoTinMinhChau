@@ -48,8 +48,10 @@ const RegisterScreen1 = (props: Props) => {
 
   const handleSexSelected = (data: any) => {
     setSexData(data);
+    console.log('data', data);
     setIsSexModal(true);
   };
+  console.log('sexdata', sexData);
 
   const handleInputChange = (id: number, value: string) => {
     setFormData(prev => ({...prev, [id]: value}));
@@ -117,7 +119,7 @@ const RegisterScreen1 = (props: Props) => {
       <KeyboardAwareScrollView scrollEnabled>
         <View style={{flex: 1}}>
           {DATA_REGISTER.map(item => (
-            <View style={[styles.input]}>
+            <View style={[styles.input]} key={item.id}>
               <View
                 style={[
                   errors[item.id] && {borderColor: 'red', borderWidth: 1},
@@ -126,7 +128,7 @@ const RegisterScreen1 = (props: Props) => {
                 <Text style={styles.text}>{item.title}</Text>
 
                 {item.type === DEFAULT ? (
-                  <View>
+                  <View style={{width: '100%'}}>
                     <TextInput
                       style={[styles.text]}
                       placeholder={item.content}
@@ -140,7 +142,12 @@ const RegisterScreen1 = (props: Props) => {
                   </View>
                 ) : item.type === SEX_TYPE ? (
                   <TouchableOpacity
-                    style={[{paddingLeft: 5, paddingVertical: 9}]}
+                    style={[
+                      {
+                        paddingLeft: 5,
+                        paddingVertical: 9,
+                      },
+                    ]}
                     onPress={() => handleSexSelected(item.data)}>
                     <Text style={styles.text}>
                       {formData[item.id] || (item.data && item.data[0]?.name)}

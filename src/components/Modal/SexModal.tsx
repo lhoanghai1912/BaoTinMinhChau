@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
 import AppStyles from '../Style/AppStyle';
-import styles from '../../screens/Auth';
+import styles from '../../screens/Auth/Register/style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface SexTypeProps {
@@ -17,23 +17,43 @@ const SexModal: React.FC<SexTypeProps> = ({
   onSelectedSex,
   dataProps,
 }) => {
-  const [isSelectingMale, setIsSelectingMale] = useState(false);
-  const [isSelectingFemale, setIsSelectingFemale] = useState(false);
   const [selectedSex, setSelectedSex] = useState('');
-  const handleSelectSex = (Sex: string) => {
-    setSelectedSex(Sex);
-  };
+
   const handleConfirm = () => {
-    if (selectedSex) {
-      onSelectedSex(selectedSex);
-    }
+    onSelectedSex(selectedSex);
     onClose();
   };
 
-  const renderSex = (item: any) => {
+  const renderSex = ({item}: any) => {
+    const isSelectedSex = selectedSex === item;
+    console.log('isselectedSex', isSelectedSex);
+
     return (
-      <View>
-        <Text>Render</Text>
+      <View
+        style={[
+          {
+            flex: 1,
+            alignItems: 'center',
+            width: '100%',
+          },
+        ]}>
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedSex(item);
+          }}
+          style={[
+            AppStyles.button,
+            {
+              width: '90%',
+              height: 50,
+              marginBottom: 9,
+              backgroundColor: isSelectedSex ? 'darkred' : 'lightgray',
+            },
+          ]}>
+          <Text style={[AppStyles.buttonText, {fontSize: 24}]}>
+            {item.name}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -47,6 +67,7 @@ const SexModal: React.FC<SexTypeProps> = ({
         style={{
           flex: 1,
           justifyContent: 'center',
+
           alignItems: 'center',
           backgroundColor: 'rgba(52, 52, 52,0.5)',
         }}>
@@ -54,11 +75,9 @@ const SexModal: React.FC<SexTypeProps> = ({
           style={{
             // padding: 20,
             width: '70%',
-            justifyContent: 'center',
-            alignItems: 'center',
+            // justifyContent: 'center',
             backgroundColor: 'white',
             borderRadius: 15,
-            alignContent: 'center',
           }}>
           <Text style={[AppStyles.headerText, {marginVertical: 20}]}>
             Giới tính
@@ -107,7 +126,7 @@ const SexModal: React.FC<SexTypeProps> = ({
           </TouchableOpacity> */}
           <View
             style={{
-              marginTop: 20,
+              marginTop: 5,
               flexDirection: 'row',
               justifyContent: 'space-around',
               alignSelf: 'center',
@@ -119,7 +138,7 @@ const SexModal: React.FC<SexTypeProps> = ({
               }}
               style={[
                 AppStyles.button,
-                {width: '20%', height: 50, marginVertical: 5},
+                {width: '22%', height: 50, marginVertical: 5},
               ]}>
               <Text style={AppStyles.buttonText}>Hủy bỏ</Text>
             </TouchableOpacity>
@@ -129,7 +148,7 @@ const SexModal: React.FC<SexTypeProps> = ({
               }}
               style={[
                 AppStyles.button,
-                {width: '20%', height: 50, marginVertical: 10},
+                {width: '25%', height: 50, marginVertical: 5},
               ]}>
               <Text style={AppStyles.buttonText}>Xác nhận</Text>
             </TouchableOpacity>
