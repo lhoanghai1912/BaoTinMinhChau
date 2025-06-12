@@ -1,7 +1,7 @@
 // src/navigation/AuthNavigator.tsx
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../screens/Auth';
-import RegisterScreen from '../screens/Auth/Register';
+import RegisterScreen from '../screens/Auth/Register/index';
 import {Screen_Name} from './ScreenName';
 import RegisterScreen1 from '../screens/Auth/Register/index1';
 

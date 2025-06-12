@@ -146,7 +146,7 @@ const LoginScreen: React.FC = () => {
               <View>
                 <TouchableOpacity
                   onPress={() => {
-                    navigate(Screen_Name.RegisterScreen1);
+                    navigate(Screen_Name.RegisterScreen);
                   }}>
                   <Text
                     style={[
