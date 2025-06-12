@@ -15,11 +15,12 @@ import {
 import styles from './style';
 import NavBar from '../../../components/navBar/navBar_index';
 import AppStyles from '../../../components/Style/AppStyle';
-import GenderModal from '../../../components/Modal/GenderModal';
+import GenderModal from '../../../components/Modal/SexModal';
 
 import DateTimeModal from '../../../components/Modal/DateTimeModal';
 import moment from 'moment';
 import images from '../../../constants/Images/images';
+import SexModal from '../../../components/Modal/SexModal';
 
 const RegisterScreen = ({navigation}) => {
   const [modalGenderVisible, setModalGenderVisible] = useState(false);
@@ -406,12 +407,12 @@ const RegisterScreen = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
-      <GenderModal
+      <SexModal
         visible={modalGenderVisible}
         onClose={() => {
           setModalGenderVisible(false);
         }}
-        onSelectedGender={handleSelectedGender}
+        onSelectedSex={handleSelectedGender}
       />
       <DateTimeModal
         visible={modalDateTimePickerVisible}

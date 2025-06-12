@@ -6,7 +6,7 @@ import NavBar from '../../../components/navBar/navBar_index';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import images from '../../../constants/Images/images';
 import DatePicker from 'react-native-date-picker';
-import DateTimeModal from '../../../components/Modal/DateTimeModal';
+import SexModal from '../../../components/Modal/SexModal';
 
 interface Props {
   navigation: any;
@@ -104,7 +104,7 @@ const RegisterScreen1 = (props: Props) => {
         .toString()
         .padStart(2, '0')}/${(selectedDate.getMonth() + 1)
         .toString()
-        .padEnd(2, '0')}/${selectedDate.getFullYear()}`;
+        .padStart(2, '0')}/${selectedDate.getUTCFullYear()}`;
       setFormData(prev => ({...prev, [id]: fomattedDate}));
       setErrors(prev => ({...prev, [id]: false}));
     }
@@ -117,86 +117,97 @@ const RegisterScreen1 = (props: Props) => {
       <KeyboardAwareScrollView scrollEnabled>
         <View style={{flex: 1}}>
           {DATA_REGISTER.map(item => (
-            <View
-              style={[
-                errors[item.id] && {borderColor: 'red', borderWidth: 1},
-                {flex: 1},
-              ]}
-              key={item.id}>
-              <Text style={styles.text}>{item.title}</Text>
+            <View style={[styles.input]}>
+              <View
+                style={[
+                  errors[item.id] && {borderColor: 'red', borderWidth: 1},
+                ]}
+                key={item.id}>
+                <Text style={styles.text}>{item.title}</Text>
 
-              {item.type === DEFAULT ? (
-                <View>
-                  <TextInput
-                    style={[styles.textInput]}
-                    placeholder={item.content}
-                    secureTextEntry={
-                      item.isSecure ? !showPassword[item.id] : false
+                {item.type === DEFAULT ? (
+                  <View>
+                    <TextInput
+                      style={[styles.text]}
+                      placeholder={item.content}
+                      secureTextEntry={
+                        item.isSecure ? !showPassword[item.id] : false
+                      }
+                      keyboardType={item.keyboardType as any}
+                      value={formData[item.id] || ''}
+                      onChangeText={text => handleInputChange(item.id, text)}
+                    />
+                  </View>
+                ) : item.type === SEX_TYPE ? (
+                  <TouchableOpacity
+                    style={[{paddingLeft: 5, paddingVertical: 9}]}
+                    onPress={() => handleSexSelected(item.data)}>
+                    <Text style={styles.text}>
+                      {formData[item.id] || (item.data && item.data[0]?.name)}
+                    </Text>
+                  </TouchableOpacity>
+                ) : item.type === BIRTH_TYPE ? (
+                  <TouchableOpacity
+                    style={{paddingLeft: 5, paddingVertical: 9}}
+                    onPress={() =>
+                      setShowDatePicker({id: item.id, open: true})
+                    }>
+                    <Text style={[styles.text, {color: '#CCC'}]}>
+                      {formData[item.id] || item.content}
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+                {/* </View> */}
+
+                {showDatePicker.open && showDatePicker.id === item.id && (
+                  <DatePicker
+                    modal
+                    open={showDatePicker.open}
+                    date={
+                      formData[item.id]
+                        ? new Date(
+                            formData[item.id].split('/').reverse().join('-'),
+                          )
+                        : new Date()
                     }
-                    keyboardType={item.keyboardType as any}
-                    value={formData[item.id] || ''}
-                    onChangeText={text => handleInputChange(item.id, text)}
+                    mode="date"
+                    maximumDate={new Date()}
+                    onConfirm={selectedDate =>
+                      handleDateChange(item.id, selectedDate)
+                    }
+                    onCancel={() => setShowDatePicker({id: null, open: false})}
                   />
-                  {item.isShowPass ? (
-                    <TouchableOpacity
-                      style={styles.btnShowPass}
-                      onPress={() => onShowPass(item.id)}>
-                      <Image
-                        source={
-                          showPassword[item.id] ? images.show : images.hide
-                        }
-                        style={styles.icon}
-                      />
-                    </TouchableOpacity>
-                  ) : null}
-                </View>
-              ) : item.type === SEX_TYPE ? (
-                <TouchableOpacity
-                  style={[styles.textInput]}
-                  onPress={() => handleSexSelected(item.data)}>
-                  <Text style={styles.text}>
-                    {formData[item.id] || (item.data && item.data[0]?.name)}
-                  </Text>
-                </TouchableOpacity>
-              ) : item.type === BIRTH_TYPE ? (
-                <TouchableOpacity
-                  style={[styles.input]}
-                  onPress={() => setShowDatePicker({id: item.id, open: true})}>
-                  <Text style={styles.text}>
-                    {formData[item.id] || item.content}
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-              {item?.isQr ? (
-                <TouchableOpacity
-                  style={styles.icon}
-                  onPress={() => onShowQr()}>
-                  <Image style={styles.icon} source={images.qr} />
-                </TouchableOpacity>
-              ) : null}
-              {showDatePicker.open && showDatePicker.id === item.id && (
-                <DatePicker
-                  modal
-                  open={showDatePicker.open}
-                  date={
-                    formData[item.id]
-                      ? new Date(
-                          formData[item.id].split('/').reverse().join('-'),
-                        )
-                      : new Date()
-                  }
-                  mode="date"
-                  maximumDate={new Date()}
-                  onConfirm={selectedDate =>
-                    handleDateChange(item.id, selectedDate)
-                  }
-                  onCancel={() => setShowDatePicker({id: null, open: false})}
-                />
-              )}
+                )}
+              </View>
+              <View style={styles.iconGroup}>
+                {item.isShowPass ? (
+                  <TouchableOpacity
+                    // style={styles.btnShowPass}
+                    onPress={() => onShowPass(item.id)}>
+                    <Image
+                      source={showPassword[item.id] ? images.show : images.hide}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+                {item?.isQr ? (
+                  <TouchableOpacity
+                    // style={styles.btnShowPass}
+                    onPress={() => onShowQr()}>
+                    <Image style={styles.icon} source={images.qr} />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
             </View>
           ))}
         </View>
       </KeyboardAwareScrollView>
+      <SexModal
+        visible={isSexModal}
+        onClose={() => setIsSexModal(false)}
+        onSelectedSex={data => handleSexSelected(data)}
+        dataProps={sexData}
+      />
     </View>
   );
 };
