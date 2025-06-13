@@ -26,6 +26,8 @@ export const post = async <T,>(url: string, data: object): Promise<T> => {
       },
       body: JSON.stringify(data),
     });
+    console.log('dataAPi',data);
+    
     
     if (!response.ok) {
       console.log('erro:',response);

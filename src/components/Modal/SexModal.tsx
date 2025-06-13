@@ -3,6 +3,7 @@ import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
 import AppStyles from '../Style/AppStyle';
 import styles from '../../screens/Auth/Register/style';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AppButton from '../AppButton';
 
 interface SexTypeProps {
   visible: boolean;
@@ -73,9 +74,7 @@ const SexModal: React.FC<SexTypeProps> = ({
         }}>
         <View
           style={{
-            // padding: 20,
             width: '70%',
-            // justifyContent: 'center',
             backgroundColor: 'white',
             borderRadius: 15,
           }}>
@@ -83,75 +82,24 @@ const SexModal: React.FC<SexTypeProps> = ({
             Giới tính
           </Text>
           <FlatList data={dataProps} renderItem={renderSex} />
-          {/* <TouchableOpacity
-            onPress={() => {
-              setSelectedSex('Nam');
-            }}
-            style={[
-              AppStyles.button,
-              {
-                height: 50,
-                backgroundColor:
-                  selectedSex === 'Nam' ? 'darkred' : 'lightgray',
-              },
-            ]}>
-            <Text
-              style={[AppStyles.buttonText, {fontSize: 24}]}
-              onPress={() => {
-                handleSelectSex('Nam');
-                setIsSelectingMale(true);
-              }}>
-              Nam
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedSex('Nữ');
-            }}
-            style={[
-              AppStyles.button,
-              {
-                height: 50,
-                backgroundColor: selectedSex === 'Nữ' ? 'darkred' : 'lightgray',
-              },
-            ]}>
-            <Text
-              style={[AppStyles.buttonText, {fontSize: 24}]}
-              onPress={() => {
-                handleSelectSex('Nữ');
-                setIsSelectingFemale(!isSelectingFemale);
-              }}>
-              Nữ
-            </Text>
-          </TouchableOpacity> */}
           <View
             style={{
-              marginTop: 5,
+              marginVertical: 9,
               flexDirection: 'row',
               justifyContent: 'space-around',
               alignSelf: 'center',
               width: '95%',
             }}>
-            <TouchableOpacity
-              onPress={() => {
-                onClose();
-              }}
-              style={[
-                AppStyles.button,
-                {width: '22%', height: 50, marginVertical: 5},
-              ]}>
-              <Text style={AppStyles.buttonText}>Hủy bỏ</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                handleConfirm();
-              }}
-              style={[
-                AppStyles.button,
-                {width: '25%', height: 50, marginVertical: 5},
-              ]}>
-              <Text style={AppStyles.buttonText}>Xác nhận</Text>
-            </TouchableOpacity>
+            <AppButton
+              title="Hủy bỏ"
+              onPress={onClose}
+              customStyle={[{width: '30%'}]}
+            />
+            <AppButton
+              title="Xác nhận"
+              onPress={handleConfirm}
+              customStyle={[{width: '30%'}]}
+            />
           </View>
         </View>
       </View>

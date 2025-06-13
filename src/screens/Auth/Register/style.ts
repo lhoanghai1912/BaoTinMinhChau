@@ -12,9 +12,10 @@ const styles = StyleSheet.create({
         top:'25%',
     },
     text:{
+        width:'100%',
         fontSize:20,
         textAlign:'left',
-        color:'#CCC',
+        color:'#333',
     },
     textInput:{
         borderRadius:5,

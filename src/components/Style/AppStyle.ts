@@ -54,7 +54,7 @@ const AppStyles = StyleSheet.create({
 
    buttonText:{
     color:'white',
-    fontSize:20,
+    fontSize:28,
     fontWeight:500,
     width:'100%',
     textAlign:'center',

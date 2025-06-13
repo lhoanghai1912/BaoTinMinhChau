@@ -1,4 +1,11 @@
-import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styles from './style';
 import DATA_REGISTER from './data';
 import {useState} from 'react';
@@ -7,6 +14,12 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import images from '../../../constants/Images/images';
 import DatePicker from 'react-native-date-picker';
 import SexModal from '../../../components/Modal/SexModal';
+import AppButton from '../../../components/AppButton';
+import {login, register} from '../../../api/Auth/authApi';
+import moment from 'moment';
+import {navigate} from '../../../navigation/RootNavigator';
+import {Screen_Name} from '../../../navigation/ScreenName';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
   navigation: any;
@@ -21,7 +34,18 @@ const DEFAULT = 1;
 const SEX_TYPE = 2;
 const BIRTH_TYPE = 3;
 
-const DATA_QR = ['0987654321', 'Tra la thai bao', 'Nam', '22/10/1900'];
+const DATA_QR = [
+  '09876543212',
+  'Tra la thai bao',
+  'Nam',
+  '22/10/1900',
+  'Hn',
+  'Htest12',
+  '123Ab@',
+  '123Ab@',
+  '0987654321',
+  'test12@gmail.com',
+];
 const RegisterScreen1 = (props: Props) => {
   const {navigation} = props;
 
@@ -45,13 +69,28 @@ const RegisterScreen1 = (props: Props) => {
   const [showPassword, setShowPassword] = useState<{[key: number]: boolean}>(
     {},
   );
+  //formData[4] : 13/07/1982
+  const date = formData[4].toString();
+  const formattedDate = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+  console.log(
+    'formData',
+    formData[10],
+    formData[6],
+    formData[7],
+    formData[8],
+    formData[2],
+    formData[5],
+    formData[9],
+    formData[1],
+    formattedDate,
+    formData[3],
+  );
 
   const handleSexSelected = (data: any) => {
     setSexData(data);
     console.log('data', data);
     setIsSexModal(true);
   };
-  console.log('sexdata', sexData);
 
   const handleInputChange = (id: number, value: string) => {
     setFormData(prev => ({...prev, [id]: value}));
@@ -97,6 +136,12 @@ const RegisterScreen1 = (props: Props) => {
       [2]: DATA_QR[1],
       [3]: DATA_QR[2],
       [4]: DATA_QR[3],
+      [5]: DATA_QR[4],
+      [6]: DATA_QR[5],
+      [7]: DATA_QR[6],
+      [8]: DATA_QR[7],
+      [9]: DATA_QR[8],
+      [10]: DATA_QR[9],
     }));
   };
   const handleDateChange = (id: number, selectedDate?: Date) => {
@@ -112,23 +157,62 @@ const RegisterScreen1 = (props: Props) => {
     }
     setShowDatePicker({id: null, open: false});
   };
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    if (validateForm()) {
+      setIsLoading(true);
+      try {
+        const response = await register(
+          formData[10],
+          formData[6],
+          formData[7],
+          formattedDate,
+          formData[3],
+          formData[8],
+          formData[2],
+          formData[5],
+          formData[9],
+          formData[1],
+        );
+        console.log('Dữ liệu trả về từ đăng kí', response);
+
+        if (response.userName) {
+          Alert.alert('Đăng kí thành công');
+          const loginNow = await login(formData[6], formData[7]);
+
+          console.log('Dữ liệu trả về từ đăng nhập', loginNow);
+          await AsyncStorage.setItem('accessToken', loginNow.token);
+        } else {
+          console.log('erro else', response.errors);
+          Alert.alert('erro alert', response.errors || 'Có lỗi xảy ra');
+        }
+      } catch (error) {
+        console.log('Lỗi ', error);
+        Alert.alert('Lỗi đăng kí', 'Vui lòng thử lại');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
   return (
     <View style={styles.container}>
       <NavBar title="Đăng kí ngay" onPress={() => navigation.goBack()} />
       <KeyboardAwareScrollView scrollEnabled>
         <View style={{flex: 1}}>
           {DATA_REGISTER.map(item => (
-            <View style={[styles.input]} key={item.id}>
+            <View style={styles.input} key={item.id}>
               <View
                 style={[
-                  errors[item.id] && {borderColor: 'red', borderWidth: 1},
+                  {width: '100%'},
+                  errors[item.id] && {
+                    borderColor: 'red',
+                    borderWidth: 1,
+                  },
                 ]}
                 key={item.id}>
-                <Text style={styles.text}>{item.title}</Text>
+                <Text style={[styles.text]}>{item.title}</Text>
 
                 {item.type === DEFAULT ? (
-                  <View style={{width: '100%'}}>
+                  <View style={{}}>
                     <TextInput
                       style={[styles.text]}
                       placeholder={item.content}
@@ -159,7 +243,7 @@ const RegisterScreen1 = (props: Props) => {
                     onPress={() =>
                       setShowDatePicker({id: item.id, open: true})
                     }>
-                    <Text style={[styles.text, {color: '#CCC'}]}>
+                    <Text style={[styles.text]}>
                       {formData[item.id] || item.content}
                     </Text>
                   </TouchableOpacity>
@@ -186,7 +270,7 @@ const RegisterScreen1 = (props: Props) => {
                   />
                 )}
               </View>
-              <View style={styles.iconGroup}>
+              <View style={[styles.iconGroup]}>
                 {item.isShowPass ? (
                   <TouchableOpacity
                     // style={styles.btnShowPass}
@@ -208,7 +292,14 @@ const RegisterScreen1 = (props: Props) => {
             </View>
           ))}
         </View>
+        <AppButton
+          title="Đăng kí"
+          onPress={onSubmit}
+          // disabled={true}
+          customStyle={[{marginVertical: 16}]}
+        />
       </KeyboardAwareScrollView>
+
       <SexModal
         visible={isSexModal}
         onClose={() => setIsSexModal(false)}

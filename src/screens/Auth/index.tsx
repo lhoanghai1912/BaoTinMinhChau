@@ -18,39 +18,41 @@ import {navigate} from '../../navigation/RootNavigator';
 import TermsModal from '../../components/Modal/TermsModal';
 import LoadingScreen from '../../components/Loading';
 import {login} from '../../api/Auth/authApi';
+import AppButton from '../../components/AppButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {setUserData} from '../../store/Slice/Slice_index';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('lhoanghai');
   const [password, setPassword] = useState('123Ab@');
   const [isVisible, setIsVisible] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [res, setRes] = useState();
   const [isLoading, setIsLoading] = useState(false); // Thêm state cho Loading
   const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
   const disabled =
-    username.length > 0 && password.length > 0 && checked == true;
+    username.length > 0 && password.length > 0 && checked == false;
+  const dispatch = useDispatch();
+
   const handleLogin = async () => {
     setIsLoading(true);
     try {
       const response = await login(username, password);
       console.log('Dữ liệu trả về từ đăng nhập', response);
-      setRes(response);
       if (response.token) {
+        await AsyncStorage.setItem('accessToken', response.token);
+
+        dispatch(setUserData({userData: response}));
+
         Alert.alert(
           'Đăng nhập thành công',
           `Chào mừng ${response.user.fullName}`,
         );
-        console.log('res', res);
       } else {
         console.log('res1', response.errors);
-
         Alert.alert('Lỗi đăng nhập', response.errors);
       }
     } catch (error) {
-      // console.log(res);
-
-      // Nếu có lỗi trả về từ API, hiển thị lỗi
-
       Alert.alert('Lỗi đăng nhập', 'Có lỗi xảy ra khi đăng nhập');
     } finally {
       setIsLoading(false); // Dừng loading khi đã xong
@@ -165,7 +167,7 @@ const LoginScreen: React.FC = () => {
                   </View>
                 </View>
                 <View style={{marginBottom: 16, alignItems: 'center'}}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => handleLogin()}
                     disabled={!disabled}
                     style={[
@@ -175,7 +177,12 @@ const LoginScreen: React.FC = () => {
                     <Text style={[AppStyles.buttonText, {fontSize: 28}]}>
                       Đăng nhập
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
+                  <AppButton
+                    disabled={disabled}
+                    title="Đăng nhập"
+                    onPress={handleLogin}
+                  />
                 </View>
                 <View style={{marginBottom: 16}}>
                   <Text style={[AppStyles.text]}>
