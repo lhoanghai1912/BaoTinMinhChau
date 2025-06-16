@@ -48,7 +48,7 @@ const SexModal: React.FC<SexTypeProps> = ({
               width: '90%',
               height: 50,
               marginBottom: 9,
-              backgroundColor: isSelectedSex ? 'darkred' : 'lightgray',
+              backgroundColor: isSelectedSex ? '#820201' : 'lightgray',
             },
           ]}>
           <Text style={[AppStyles.buttonText, {fontSize: 24}]}>

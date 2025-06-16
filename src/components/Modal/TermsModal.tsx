@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Modal,
   Text,
@@ -6,8 +6,10 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import AppStyles from '../Style/AppStyle';
+import {term} from '../../api/Term/termApi';
 
 interface TermsModalProps {
   visible: boolean;
@@ -15,6 +17,26 @@ interface TermsModalProps {
 }
 
 const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [termsContent, setTermsContent] = useState<string>('');
+  const fetchTerms = async () => {
+    setLoading(true);
+    try {
+      const data = await term(); // Giả sử bạn có API này
+      setTermsContent(data); // Cập nhật nội dung Điều khoản
+      console.log('aaaaaa', termsContent);
+    } catch (error) {
+      console.error('Lỗi tải Điều khoản:', error);
+      setTermsContent('Không thể tải điều khoản');
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (visible) {
+      fetchTerms();
+    }
+  }, [visible]);
   return (
     <Modal
       animationType="slide"
@@ -36,27 +58,13 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
             padding: 20,
             alignItems: 'center',
           }}>
-          <Text style={[AppStyles.headerText, {marginBottom: 10}]}>
-            Điều khoản và Điều kiện
-          </Text>
-          <ScrollView style={{width: '100%'}}>
-            <View style={{alignItems: 'center', marginTop: 20}}>
-              <Text style={[AppStyles.text, {fontSize: 16, marginBottom: 15}]}>
-                1. Điều khoản 1: Mô tả về điều khoản đầu tiên...
-              </Text>
-              <Text style={[AppStyles.text, {fontSize: 16, marginBottom: 15}]}>
-                2. Điều khoản 2: Mô tả về điều khoản thứ hai...
-              </Text>
-              <Text style={[AppStyles.text, {fontSize: 16, marginBottom: 15}]}>
-                3. Điều khoản 3: Mô tả về điều khoản thứ ba...
-              </Text>
-              <Text style={[AppStyles.text, {fontSize: 16, marginBottom: 15}]}>
-                4. Điều khoản 4: Mô tả về điều khoản thứ tư...
-              </Text>
-              {/* Thêm nhiều điều khoản ở đây */}
-            </View>
-          </ScrollView>
-
+          {loading ? (
+            <ActivityIndicator size="large" color="#820201" />
+          ) : (
+            <ScrollView>
+              <Text style={AppStyles.text}>{termsContent}</Text>
+            </ScrollView>
+          )}
           {/* Nút Đóng */}
         </View>
         <TouchableOpacity

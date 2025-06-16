@@ -35,7 +35,7 @@ const AppButton: React.FC<AppButtonProps> = ({
 const styles = StyleSheet.create({
   //Button
   button: {
-    backgroundColor: 'darkred',
+    backgroundColor: '#820201',
     // alignItems: 'center',
     borderRadius: 10,
     width: '95%',

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     height: 70,
-    backgroundColor: 'darkred', // Customize your navbar color
+    backgroundColor: '#820201', // Customize your navbar color
   },
   navTitle: {
     color: 'white',

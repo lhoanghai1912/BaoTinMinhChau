@@ -17,7 +17,7 @@ const userSlice = createSlice({
   name: 'user_Slice',
   initialState: initialUserState,
   reducers: {
-    login(
+    login_redux(
       state: UserState,
       action: PayloadAction<{
         accessToken: string;
@@ -27,7 +27,7 @@ const userSlice = createSlice({
     },
     logout(state) {
       state.accessToken = null;
-      AsyncStorage.removeItem('accessToken');
+      state.userData = null;
     },
     setUserData(state: UserState, action: PayloadAction<any>) {
       state.userData = action.payload.userData;
@@ -35,9 +35,8 @@ const userSlice = createSlice({
     setUserDataInformation(state: UserState, action: PayloadAction<any>) {
       state.userData = action.payload.user;
     },
-    setItemData(state: UserState, action: PayloadAction<any>) {},
   },
 });
-export const {login, logout, setUserData, setItemData, setUserDataInformation} =
+export const {login_redux, logout, setUserData, setUserDataInformation} =
   userSlice.actions;
 export const userReducer = userSlice.reducer;

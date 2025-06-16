@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,8 +20,8 @@ import LoadingScreen from '../../components/Loading';
 import {login} from '../../api/Auth/authApi';
 import AppButton from '../../components/AppButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
-import {setUserData} from '../../store/Slice/Slice_index';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserData, login_redux} from '../../store/Slice/Slice_index';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('lhoanghai');
@@ -41,9 +41,8 @@ const LoginScreen: React.FC = () => {
       console.log('Dữ liệu trả về từ đăng nhập', response);
       if (response.token) {
         await AsyncStorage.setItem('accessToken', response.token);
-
         dispatch(setUserData({userData: response}));
-
+        dispatch(login_redux({accessToken: response.token}));
         Alert.alert(
           'Đăng nhập thành công',
           `Chào mừng ${response.user.fullName}`,
@@ -158,7 +157,7 @@ const LoginScreen: React.FC = () => {
                       <Text
                         style={[
                           AppStyles.text,
-                          {color: 'darkred', flexShrink: 1},
+                          {color: '#820201', flexShrink: 1},
                         ]}>{` Điều khoản, Điền kiện `}</Text>
                     </TouchableOpacity>
                     <Text style={[AppStyles.text, {flexShrink: 1}]}>
@@ -167,17 +166,6 @@ const LoginScreen: React.FC = () => {
                   </View>
                 </View>
                 <View style={{marginBottom: 16, alignItems: 'center'}}>
-                  {/* <TouchableOpacity
-                    onPress={() => handleLogin()}
-                    disabled={!disabled}
-                    style={[
-                      AppStyles.button,
-                      {opacity: disabled ? 1 : 0.5, paddingVertical: 5},
-                    ]}>
-                    <Text style={[AppStyles.buttonText, {fontSize: 28}]}>
-                      Đăng nhập
-                    </Text>
-                  </TouchableOpacity> */}
                   <AppButton
                     disabled={disabled}
                     title="Đăng nhập"
@@ -197,7 +185,7 @@ const LoginScreen: React.FC = () => {
                     <Text
                       style={[
                         AppStyles.smallText,
-                        {color: 'darkred', fontSize: 18},
+                        {color: '#820201', fontSize: 18},
                       ]}>
                       Đăng kí ngay
                     </Text>

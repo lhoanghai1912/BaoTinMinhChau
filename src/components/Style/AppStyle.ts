@@ -17,35 +17,31 @@ const AppStyles = StyleSheet.create({
    },
    smallText:{
     fontSize:18,
-    color: 'darkred',  
+    color: '#820201',  
     textAlign:'center',
    },
 
 //Input
    textInput:{
-    // flex:1,
     borderRadius:5,
     borderColor:'black',
     borderWidth:1,
     width:'100%',
     alignItems:'flex-start',
     fontSize:24,
-   //  marginBottom:16,
    },
 
 //Icon
    icon:{
     resizeMode:'contain',
     zIndex:1,
-   //  padding:3,
     height:30,
     width:30,
    },
 
 //Button
    button:{
-    backgroundColor:'darkred',
-   //  alignItems:'center',
+    backgroundColor:'#820201',
     borderRadius:10,
     width:'90%',
     justifyContent:"center",
