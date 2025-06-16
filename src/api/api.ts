@@ -6,7 +6,7 @@ const url_base = 'http://posapi.foxai.com.vn:8386/api/';
 export const get = async <T,>(url: string, params?: object): Promise<T> => {
   try {
     const queryParams = params ? `?${new URLSearchParams(params as Record<string, string>)}` : '';
-    const response = await fetch(`${url_base}${url}${queryParams}`);
+    const response = await fetch(`${url_base}${url}${queryParams}`);    
     if (!response.ok) {
       throw new Error('Error fetching data');
     }

@@ -7,9 +7,12 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  useWindowDimensions,
 } from 'react-native';
 import AppStyles from '../Style/AppStyle';
 import {term} from '../../api/Term/termApi';
+import HTMLReactParser from 'html-react-parser';
+import RenderHTML from 'react-native-render-html';
 
 interface TermsModalProps {
   visible: boolean;
@@ -19,6 +22,9 @@ interface TermsModalProps {
 const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [termsContent, setTermsContent] = useState<string>('');
+  const {width} = useWindowDimensions();
+
+  const source = {html: termsContent};
   const fetchTerms = async () => {
     setLoading(true);
     try {
@@ -26,7 +32,9 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
       setTermsContent(data); // Cập nhật nội dung Điều khoản
       console.log('aaaaaa', termsContent);
     } catch (error) {
-      console.error('Lỗi tải Điều khoản:', error);
+      console.log('Lỗi 2', error);
+
+      // console.error('Lỗi tải Điều khoản:', error);
       setTermsContent('Không thể tải điều khoản');
     } finally {
       setLoading(false);
@@ -52,7 +60,7 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
         }}>
         <View
           style={{
-            width: '60%',
+            width: '90%',
             backgroundColor: 'white',
             borderRadius: 15,
             padding: 20,
@@ -62,7 +70,8 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
             <ActivityIndicator size="large" color="#820201" />
           ) : (
             <ScrollView>
-              <Text style={AppStyles.text}>{termsContent}</Text>
+              <RenderHTML contentWidth={width} source={source} />
+              {/* <RenderHTML source={{html: termsContent}} /> */}
             </ScrollView>
           )}
           {/* Nút Đóng */}

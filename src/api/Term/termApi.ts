@@ -3,16 +3,27 @@
   import { get } from '../api'; // Giả sử bạn đã có hàm `get` để gọi GET requests
 
   export const term = async (): Promise<string> => {
-    const apiUrl = 'Clause/GetTerms'; // Địa chỉ endpoint lấy Điều khoản và Điều kiện
-
+    // const apiUrl = 'Clause/GetTerms'; // Địa chỉ endpoint lấy Điều khoản và Điều kiện
+    // try {
+    //   const response = await get<any>(apiUrl);
+    //   const data = await response.json(); // Lấy nội dung HTML từ API
+    //   console.log(data);
+    //   return data;
+    // } catch (error) {
+    //   console.log('Lỗi ',error);
+      
+    //   // console.error('Lỗi khi tải Điều khoản:', error);
+    //   throw error;
+    // }
+    const apiUrl = "http://posapi.foxai.com.vn:8386/api/Clause/GetTerms"
     try {
-      // Gọi API GET và nhận về nội dung Điều khoản
-      const response = await get<any>(apiUrl); 
-      console.log('Dữ liệu trả về từ API Điều khoản:', response);
-
-      return response.termsContent || ''; // Trả về nội dung Điều khoản
+      const res =await fetch(apiUrl)
+      const data = await res.text()
+      console.log(data);
+      return data
+      
     } catch (error) {
-      console.error('Lỗi khi tải Điều khoản:', error);
-      throw error;
+      console.log(error);
+      
     }
   };
