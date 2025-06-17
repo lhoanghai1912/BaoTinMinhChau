@@ -22,6 +22,8 @@ import AppButton from '../../components/AppButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserData, login_redux} from '../../store/Slice/Slice_index';
+import OTPModal from '../../components/Modal/GetOPTModal';
+import ResetPasswodModal from '../../components/Modal/ResetPasswordModal';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('lhoanghai');
@@ -30,6 +32,11 @@ const LoginScreen: React.FC = () => {
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Thêm state cho Loading
   const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
+  const [isOTPModalVisible, setIsOTPModalVisible] = useState(false);
+  const [isResetPasswordModalVisible, setIsResetPasswordModalVisible] =
+    useState(false);
+  const [resetEmail, setResetEmail] = useState(''); // giữ email từ OTPModal
+
   const disabled =
     username.length > 0 && password.length > 0 && checked == false;
   const dispatch = useDispatch();
@@ -129,7 +136,7 @@ const LoginScreen: React.FC = () => {
                   </View>
                 </View>
                 <View style={{marginBottom: 16, marginTop: 5}}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => setIsOTPModalVisible(true)}>
                     <Text style={[AppStyles.smallText]}>Quên mật khẩu</Text>
                   </TouchableOpacity>
                 </View>
@@ -196,9 +203,19 @@ const LoginScreen: React.FC = () => {
             <View style={[styles.footer]}></View>
             <TermsModal
               visible={isTermsModalVisible}
-              onClose={() => {
-                setIsTermsModalVisible(false);
-              }}></TermsModal>
+              onClose={() => setIsTermsModalVisible(false)}></TermsModal>
+            <OTPModal
+              visible={isOTPModalVisible}
+              onClose={() => setIsOTPModalVisible(false)}
+              onSuccess={emailFromOTP => {
+                setResetEmail(emailFromOTP); // lưu email
+                setIsOTPModalVisible(false);
+                setIsResetPasswordModalVisible(true);
+              }}></OTPModal>
+            <ResetPasswodModal
+              visible={isResetPasswordModalVisible}
+              onClose={() => setIsResetPasswordModalVisible(false)}
+              email={resetEmail}></ResetPasswodModal>
           </View>
         )}
       </ScrollView>

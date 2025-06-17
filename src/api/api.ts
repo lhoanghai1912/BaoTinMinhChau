@@ -32,7 +32,6 @@ export const post = async <T,>(url: string, data: object): Promise<T> => {
     if (!response.ok) {
       console.log('erro:',response);
     }
-        console.log('success',response);
     return await response.json();
   } catch (error) {
     throw error;

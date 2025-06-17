@@ -10,7 +10,7 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import AppStyles from '../Style/AppStyle';
-import {term} from '../../api/Term/termApi';
+import {term} from '../../api/Modal/termApi';
 import HTMLReactParser from 'html-react-parser';
 import RenderHTML from 'react-native-render-html';
 
@@ -71,7 +71,6 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
           ) : (
             <ScrollView>
               <RenderHTML contentWidth={width} source={source} />
-              {/* <RenderHTML source={{html: termsContent}} /> */}
             </ScrollView>
           )}
           {/* Nút Đóng */}
