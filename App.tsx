@@ -15,9 +15,12 @@ function App(): React.JSX.Element {
     //   <RootNavigator />
     //   <Toast />
     // </View>
-    <Provider store={store}>
-      <AppNavigator />
-    </Provider>
+    <>
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+      <Toast />
+    </>
   );
 }
 

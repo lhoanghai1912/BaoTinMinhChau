@@ -15,6 +15,7 @@ import {navigate} from '../../navigation/RootNavigator';
 import {Screen_Name} from '../../navigation/ScreenName';
 import images from '../../constants/Images/images';
 import AppStyles from '../../components/Style/AppStyle';
+import {colors} from '../../components/Style/Colors';
 
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const HomeScreen: React.FC = () => {
         <View style={styles.headerContent}>
           <View style={[styles.headerContentCol, {flex: 0.7, marginLeft: 10}]}>
             <Image
-              source={images.avarta}
+              source={images.account}
               style={[
                 styles.icon,
                 {
@@ -66,16 +67,16 @@ const HomeScreen: React.FC = () => {
           <TouchableOpacity onPress={() => navigate(Screen_Name.BuyScreen)}>
             <View style={[styles.bodyItems]}>
               <Image
-                source={images.shop}
-                style={[styles.icon, {width: 70, height: 70}]}></Image>
+                source={images.buy_action}
+                style={[styles.icon, {width: 50, height: 50}]}></Image>
               <Text>Mua vàng</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigate(Screen_Name.SellScreen)}>
             <View style={[styles.bodyItems]}>
               <Image
-                source={images.money}
-                style={[styles.icon, {width: 70, height: 70}]}></Image>
+                source={images.sell_action}
+                style={[styles.icon, {width: 50, height: 50}]}></Image>
               <Text>Bán vàng</Text>
             </View>
           </TouchableOpacity>
@@ -83,8 +84,8 @@ const HomeScreen: React.FC = () => {
             onPress={() => navigate(Screen_Name.WithdrawScreen)}>
             <View style={[styles.bodyItems]}>
               <Image
-                source={images.card}
-                style={[styles.icon, {width: 70, height: 70}]}></Image>
+                source={images.wallet_action}
+                style={[styles.icon, {width: 50, height: 50}]}></Image>
               <Text>Rút vàng</Text>
             </View>
           </TouchableOpacity>
@@ -98,22 +99,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // alignItems: 'center',
   },
   header: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#820201',
+    backgroundColor: colors.white,
   },
   headerContent: {
     flexDirection: 'row',
     marginTop: '5%',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     height: '70%',
     width: '80%',
-    borderRadius: 20,
-    // paddingHorizontal: 10,
+    borderRadius: 5,
   },
   headerContentCol: {
     flex: 1,
@@ -137,8 +135,8 @@ const styles = StyleSheet.create({
 
     marginRight: 10,
     marginBottom: 20, // Thêm marginBottom cho các phần tử để tránh bị dính nhau
-    backgroundColor: 'white',
-    borderRadius: 20,
+    backgroundColor: colors.white,
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 15, // Thêm padding để nội dung không bị sát mép
@@ -151,8 +149,9 @@ const styles = StyleSheet.create({
 
   icon: {
     resizeMode: 'contain',
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
+    backgroundColor: colors.white_1,
   },
 });
 

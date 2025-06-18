@@ -1,10 +1,16 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../../components/Style/Colors';
 
 const styles = StyleSheet.create({
 
     container:{
         flex:1,   
         alignContent:'center',
+        backgroundColor:'#F6F6F6',
+    },
+    body:{
+        flex:1,
+        paddingHorizontal:16,
     },
     iconGroup:{
         position:'absolute',
@@ -12,33 +18,28 @@ const styles = StyleSheet.create({
         top:'25%',
     },
     text:{
-        width:'100%',
+        // width:'100%',
         fontSize:20,
         textAlign:'left',
-        color:'#333',
+        color:colors.black,
     },
-    textInput:{
-        borderRadius:5,
-        borderColor:'black',
-        borderWidth:1,
-        alignItems:'flex-start',
-        marginBottom:9,
-        alignSelf:'center',
-   },
     icon:{
         resizeMode:'contain',
         zIndex:1,
         height:30,
-        width:30,   
+        width:30,  
+        top:30, 
     },
     input:{
         borderRadius:10,
-        width:'95%',
-        paddingHorizontal:5,
         borderWidth:1,
-        alignItems:'flex-start',
-        alignSelf:"center",
-        marginTop:16,
+        borderColor:colors.silver,
+        height:80,
+        width:'100%',
+        paddingHorizontal:9,
+        paddingVertical:5,
+        marginTop:32,
+        flexDirection: 'column',
     },
    
 })

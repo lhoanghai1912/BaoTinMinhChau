@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "./Colors";
 
 const AppStyles = StyleSheet.create({
 //Text  
@@ -11,20 +12,20 @@ const AppStyles = StyleSheet.create({
    headerText:{
       fontFamily:"Arial",
       fontSize:26,
-      color:'#333',
+      color:colors.black,
       marginBottom: 16,
       textAlign: 'center'
    },
    smallText:{
     fontSize:18,
-    color: '#820201',  
+    color: colors.red,  
     textAlign:'center',
    },
 
 //Input
    textInput:{
     borderRadius:5,
-    borderColor:'black',
+    borderColor:colors.white_1,
     borderWidth:1,
     width:'100%',
     alignItems:'flex-start',
@@ -41,7 +42,7 @@ const AppStyles = StyleSheet.create({
 
 //Button
    button:{
-    backgroundColor:'#820201',
+    backgroundColor:colors.red,
     borderRadius:10,
     width:'90%',
     justifyContent:"center",
@@ -49,7 +50,7 @@ const AppStyles = StyleSheet.create({
    },
 
    buttonText:{
-    color:'white',
+    color:colors.white,
     fontSize:28,
     fontWeight:500,
     width:'100%',

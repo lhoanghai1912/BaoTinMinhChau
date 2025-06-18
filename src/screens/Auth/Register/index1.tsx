@@ -3,6 +3,7 @@ import {
   Image,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -17,12 +18,13 @@ import SexModal from '../../../components/Modal/SexModal';
 import AppButton from '../../../components/AppButton';
 import {login, register} from '../../../api/Auth/authApi';
 import moment from 'moment';
-import {navigate} from '../../../navigation/RootNavigator';
-import {Screen_Name} from '../../../navigation/ScreenName';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {login_redux, setUserData} from '../../../store/Slice/Slice_index';
 import LoadingScreen from '../../../components/Loading';
+import {colors} from '../../../components/Style/Colors';
+import Toast from 'react-native-toast-message';
 
 interface Props {
   navigation: any;
@@ -125,9 +127,33 @@ const RegisterScreen1 = (props: Props) => {
             isValid = false;
           }
         } else {
+          if (item.id === 8) {
+            const password = formData[7];
+            const confirmPassword = formData[8];
+            if (password !== confirmPassword) {
+              newErrors[item.id] = true;
+              isValid = false;
+              Toast.show({
+                type: 'error',
+                position: 'top',
+                text1: 'Lỗi!',
+                text2: 'Mật khẩu và xác nhận mật khẩu không trùng khớp',
+                visibilityTime: 3000,
+                autoHide: true,
+              });
+            }
+          }
           if (!formData[item.id] || formData[item.id].trim() === '') {
             newErrors[item.id] = true;
             isValid = false;
+            Toast.show({
+              type: 'error',
+              position: 'top',
+              text1: 'Lỗi!',
+              text2: 'Vui lòng nhập đầy đủ thông tin',
+              visibilityTime: 3000,
+              autoHide: true,
+            });
           }
         }
       }
@@ -208,15 +234,17 @@ const RegisterScreen1 = (props: Props) => {
         <LoadingScreen></LoadingScreen>
       ) : (
         <KeyboardAwareScrollView scrollEnabled>
-          <View style={{flex: 1}}>
+          <View style={styles.body}>
             {DATA_REGISTER.map(item => (
-              <View style={styles.input} key={item.id}>
+              <View key={item.id}>
                 <View
                   style={[
-                    {width: '100%'},
+                    styles.input,
                     errors[item.id] && {
-                      borderColor: 'red',
+                      borderColor: colors.red,
                       borderWidth: 1,
+                      // height: 70,
+                      // borderRadius: 10,
                     },
                   ]}
                   key={item.id}>
@@ -225,7 +253,12 @@ const RegisterScreen1 = (props: Props) => {
                   {item.type === DEFAULT ? (
                     <View style={{}}>
                       <TextInput
-                        style={[styles.text]}
+                        style={[
+                          styles.text,
+                          {
+                            paddingBottom: 10,
+                          },
+                        ]}
                         placeholder={item.content}
                         secureTextEntry={
                           item.isSecure ? !showPassword[item.id] : false
@@ -310,7 +343,6 @@ const RegisterScreen1 = (props: Props) => {
           <AppButton
             title="Đăng kí"
             onPress={onSubmit}
-            // disabled={true}
             customStyle={[{marginVertical: 16}]}
           />
         </KeyboardAwareScrollView>

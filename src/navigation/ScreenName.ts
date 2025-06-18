@@ -18,6 +18,7 @@ export const Screen_Name = {
     SellScreen:'SellScreen',
     WithdrawScreen:'WithdrawScreen',
     CartScreen:'CartScreen',
+    DetailScreen:'DetailScreen',
 
     //Other
     SplashScreen:'SplashScreen',

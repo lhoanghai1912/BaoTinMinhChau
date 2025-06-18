@@ -1,10 +1,12 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../components/Style/Colors";
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#820201',
+    backgroundColor:colors.red,
+    paddingHorizontal:16
   },
 
   //Header
@@ -17,7 +19,7 @@ const styles = StyleSheet.create({
   headerText:{
     fontSize: 40,
     marginBottom: 9,
-    color: 'yellow',
+    color: colors.yellow,
     fontWeight: 'bold',
   },
 
@@ -28,12 +30,9 @@ const styles = StyleSheet.create({
   },
 
   wrapContent:{
-    // flex:1,
-    backgroundColor:'white',
-    borderRadius:20,
-    // alignItems:'center',
-    width:'95%',
-    paddingHorizontal:9,
+    backgroundColor:colors.white,
+    borderRadius:10,
+    paddingHorizontal:16,
     paddingVertical:30,
 
   },

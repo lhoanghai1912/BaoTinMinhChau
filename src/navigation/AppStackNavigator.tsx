@@ -7,6 +7,7 @@ import BuyScreen from '../screens/Home/Buy';
 import SellScreen from '../screens/Home/Sell';
 import CartScreen from '../screens/Home/Cart';
 import WithdrawScreen from '../screens/Home/Withdraw';
+import DetailScreen from '../screens/Home/Buy/Detail';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ const AppStackNavigator = () => {
         name={Screen_Name.WithdrawScreen}
         component={WithdrawScreen}
       />
+      <Stack.Screen name={Screen_Name.DetailScreen} component={DetailScreen} />
     </Stack.Navigator>
   );
 };

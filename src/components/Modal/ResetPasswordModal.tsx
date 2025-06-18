@@ -11,23 +11,37 @@ import AppButton from '../AppButton';
 import App from '../../../App';
 import {useState} from 'react';
 import {resetpw} from '../../api/Modal/ResetPassword';
+import Toast from 'react-native-toast-message';
 
 interface ResetPasswodProp {
   visible: boolean;
   onClose: () => void;
   email: string;
+  otp: string;
 }
 
 const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
   visible,
   onClose,
   email,
+  otp,
 }) => {
   const [resetPassword, setresetPassword] = useState('');
-  const [otp, setOtp] = useState('');
+  const [confirmResetPassword, setConfirmResetPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Thêm state cho Loading
-
   const handleConfirm = async () => {
+    if (resetPassword !== confirmResetPassword) {
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Lỗi!',
+        text2: 'Mật khẩu và xác nhận mật khẩu không trùng khớp',
+        visibilityTime: 3000,
+        autoHide: true,
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await resetpw(otp, email, resetPassword);
@@ -57,7 +71,7 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
           style={{
             width: '70%',
             backgroundColor: 'white',
-            borderRadius: 15,
+            borderRadius: 5,
           }}>
           {isLoading ? (
             <ActivityIndicator size="large" color="#820201" />
@@ -66,13 +80,7 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
               <Text style={[AppStyles.headerText, {marginVertical: 20}]}>
                 Cập nhật mật khẩu mới
               </Text>
-              <TextInput
-                editable={false}
-                value={email}
-                style={[
-                  AppStyles.textInput,
-                  {width: '85%', alignSelf: 'center'},
-                ]}></TextInput>
+
               <TextInput
                 placeholder="Nhập mật khẩu mới"
                 onChangeText={text => setresetPassword(text)}
@@ -82,9 +90,9 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
                   {width: '85%', alignSelf: 'center'},
                 ]}></TextInput>
               <TextInput
-                placeholder="Nhập mã OTP"
-                onChangeText={text => setOtp(text)}
-                value={otp}
+                placeholder="Nhập lại mật khẩu "
+                onChangeText={text => setConfirmResetPassword(text)}
+                value={confirmResetPassword}
                 style={[
                   AppStyles.textInput,
                   {width: '85%', alignSelf: 'center'},

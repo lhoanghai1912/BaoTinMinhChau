@@ -8,6 +8,7 @@ import {
   TextStyle,
   StyleSheet,
 } from 'react-native';
+import {colors} from '../Style/Colors';
 
 interface AppButtonProps {
   onPress: () => void; // Hàm khi nhấn nút
@@ -26,7 +27,11 @@ const AppButton: React.FC<AppButtonProps> = ({
     <TouchableOpacity
       disabled={disabled}
       onPress={onPress}
-      style={[styles.button, ...customStyle, {opacity: disabled ? 0.5 : 1}]}>
+      style={[
+        disabled ? styles.buttonDisabled : styles.button,
+        ...customStyle,
+        {opacity: disabled ? 0.5 : 1},
+      ]}>
       <Text style={[styles.buttonText]}>{title}</Text>
     </TouchableOpacity>
   );
@@ -35,19 +40,26 @@ const AppButton: React.FC<AppButtonProps> = ({
 const styles = StyleSheet.create({
   //Button
   button: {
-    backgroundColor: '#820201',
-    // alignItems: 'center',
-    borderRadius: 10,
+    backgroundColor: colors.red,
+    borderRadius: 5,
     width: '95%',
     alignSelf: 'center',
     justifyContent: 'center',
     alignContent: 'center',
-    paddingVertical: 5,
+    paddingVertical: 9,
   },
-
+  buttonDisabled: {
+    backgroundColor: colors.white_1,
+    borderRadius: 5,
+    width: '95%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    paddingVertical: 9,
+  },
   buttonText: {
-    color: 'white',
-    fontSize: 28,
+    color: colors.white,
+    fontSize: 20,
     fontWeight: 500,
     width: '100%',
     textAlign: 'center',

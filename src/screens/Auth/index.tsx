@@ -22,8 +22,11 @@ import AppButton from '../../components/AppButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserData, login_redux} from '../../store/Slice/Slice_index';
-import OTPModal from '../../components/Modal/GetOPTModal';
+import OTPModal from '../../components/Modal/GetOtpModal';
 import ResetPasswodModal from '../../components/Modal/ResetPasswordModal';
+import {colors} from '../../components/Style/Colors';
+import EnterOtpModal from '../../components/Modal/EnterOtpModal';
+import {otp} from '../../api/Modal/OTPApi';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('lhoanghai');
@@ -32,10 +35,12 @@ const LoginScreen: React.FC = () => {
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Thêm state cho Loading
   const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
+  const [isEnterOtpModalVisible, setIsEnterOtpModalVisible] = useState(false);
   const [isOTPModalVisible, setIsOTPModalVisible] = useState(false);
   const [isResetPasswordModalVisible, setIsResetPasswordModalVisible] =
     useState(false);
   const [resetEmail, setResetEmail] = useState(''); // giữ email từ OTPModal
+  const [resetOtp, setResetOtp] = useState('');
 
   const disabled =
     username.length > 0 && password.length > 0 && checked == false;
@@ -63,6 +68,11 @@ const LoginScreen: React.FC = () => {
     } finally {
       setIsLoading(false); // Dừng loading khi đã xong
     }
+  };
+  const handleOtpSubmit = otp => {
+    // Xử lý OTP sau khi người dùng nhập xong và nhấn "Xác nhận"
+    console.log('OTP đã nhập: ', otp);
+    // Gọi API hoặc logic xác thực OTP ở đây
   };
 
   return (
@@ -164,7 +174,7 @@ const LoginScreen: React.FC = () => {
                       <Text
                         style={[
                           AppStyles.text,
-                          {color: '#820201', flexShrink: 1},
+                          {color: colors.red, flexShrink: 1, fontWeight: 500},
                         ]}>{` Điều khoản, Điền kiện `}</Text>
                     </TouchableOpacity>
                     <Text style={[AppStyles.text, {flexShrink: 1}]}>
@@ -208,14 +218,25 @@ const LoginScreen: React.FC = () => {
               visible={isOTPModalVisible}
               onClose={() => setIsOTPModalVisible(false)}
               onSuccess={emailFromOTP => {
-                setResetEmail(emailFromOTP); // lưu email
+                setResetEmail(emailFromOTP);
                 setIsOTPModalVisible(false);
-                setIsResetPasswordModalVisible(true);
+                setIsEnterOtpModalVisible(true);
               }}></OTPModal>
+            <EnterOtpModal
+              visible={isEnterOtpModalVisible}
+              onClose={() => setIsEnterOtpModalVisible(false)}
+              email={resetEmail}
+              onSuccess={otp => {
+                setResetOtp(otp);
+                setIsEnterOtpModalVisible(false);
+                setIsResetPasswordModalVisible(true);
+              }}
+            />
             <ResetPasswodModal
               visible={isResetPasswordModalVisible}
               onClose={() => setIsResetPasswordModalVisible(false)}
-              email={resetEmail}></ResetPasswodModal>
+              email={resetEmail}
+              otp={resetOtp}></ResetPasswodModal>
           </View>
         )}
       </ScrollView>

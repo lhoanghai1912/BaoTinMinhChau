@@ -1,15 +1,15 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import HomeScreen from '../screens/Home';
 import BuyScreen from '../screens/Home/Buy';
 import SellScreen from '../screens/Home/Sell';
 import WithdrawScreen from '../screens/Home/Withdraw';
 import CartScreen from '../screens/Home/Cart';
+
+import AppStyles from '../components/Style/AppStyle';
+import images from '../constants/Images/images';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,39 +30,29 @@ const BottomTabNavigator = () => {
           marginBottom: 4,
         },
         tabBarIcon: ({focused, color, size}) => {
-          let iconName: string = '';
-          let IconPack: any = Ionicons;
+          let iconSource;
 
           switch (route.name) {
             case 'Trang chủ':
-              iconName = focused ? 'home' : 'home-outline';
-              IconPack = Ionicons;
+              iconSource = !focused ? images.home : images.home_action;
               break;
             case 'Mua hàng':
-              iconName = focused ? 'storefront' : 'storefront-outline';
-              IconPack = Ionicons;
+              iconSource = !focused ? images.buy : images.buy_action;
               break;
             case 'Bán vàng':
-              iconName = 'money-bill-wave';
-              IconPack = FontAwesome5;
+              iconSource = !focused ? images.sell : images.sell_action;
               break;
             case 'Rút vàng':
-              iconName = 'credit-card';
-              IconPack = MaterialIcons;
+              iconSource = !focused ? images.wallet : images.wallet_action;
               break;
             case 'Giỏ hàng':
-              iconName = focused ? 'shopping-cart' : 'shopping-cart';
-              IconPack = MaterialIcons;
+              iconSource = !focused ? images.cart : images.cart_action;
               break;
           }
 
           return (
             <View style={{alignItems: 'center'}}>
-              <IconPack
-                name={iconName}
-                size={22}
-                color={focused ? '#820201' : '#888'}
-              />
+              <Image source={iconSource} style={AppStyles.icon} />
               {focused && (
                 <View
                   style={{
@@ -70,7 +60,7 @@ const BottomTabNavigator = () => {
                     height: 2,
                     backgroundColor: '#820201',
                     marginTop: 3,
-                    borderRadius: 1,
+                    borderRadius: 5,
                   }}
                 />
               )}

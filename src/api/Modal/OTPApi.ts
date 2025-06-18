@@ -11,7 +11,6 @@ export const otp = async(
     try{
         const response = await post<any>(apiUrl,data)
         if(response.status ===200){
-            Alert.alert('Vui lòng kiểm tra email của bạn');            
         }
         else{
             Alert.alert('Lỗi',response.errors);

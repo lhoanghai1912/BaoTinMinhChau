@@ -38,7 +38,7 @@ const DateTimeModal: React.FC<DateTimeProps> = ({
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: 'white',
-            borderRadius: 15,
+            borderRadius: 5,
             padding: 20,
           }}>
           <Text style={[AppStyles.headerText, {marginVertical: 20}]}>

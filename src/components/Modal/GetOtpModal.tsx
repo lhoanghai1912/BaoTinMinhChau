@@ -49,20 +49,19 @@ const OTPModal: React.FC<OTPProp> = ({visible, onClose, onSuccess}) => {
         style={{
           flex: 1,
           justifyContent: 'center',
-
-          alignItems: 'center',
+          // alignItems: 'center',
           backgroundColor: 'rgba(52, 52, 52,0.5)',
+          paddingHorizontal: 13,
         }}>
-        <View
-          style={{
-            width: '70%',
-            backgroundColor: 'white',
-            borderRadius: 15,
-          }}>
-          {isLoading ? (
-            <ActivityIndicator size="large" color="#820201" />
-          ) : (
-            <View>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#820201" />
+        ) : (
+          <View
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 10,
+            }}>
+            <View style={{paddingHorizontal: 16}}>
               <Text style={[AppStyles.headerText, {marginVertical: 20}]}>
                 Nhập email đăng kí tài khoản
               </Text>
@@ -71,15 +70,13 @@ const OTPModal: React.FC<OTPProp> = ({visible, onClose, onSuccess}) => {
                 value={email}
                 style={[
                   AppStyles.textInput,
-                  {width: '85%', alignSelf: 'center'},
+                  {alignSelf: 'center', paddingHorizontal: 9},
                 ]}></TextInput>
               <View
                 style={{
-                  marginVertical: 9,
+                  marginVertical: 20,
                   flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  alignSelf: 'center',
-                  width: '95%',
+                  justifyContent: 'space-between',
                 }}>
                 <AppButton
                   title="Hủy bỏ"
@@ -93,8 +90,8 @@ const OTPModal: React.FC<OTPProp> = ({visible, onClose, onSuccess}) => {
                 />
               </View>
             </View>
-          )}
-        </View>
+          </View>
+        )}
       </View>
     </Modal>
   );

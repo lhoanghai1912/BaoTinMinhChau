@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
 import AppStyles from '../Style/AppStyle';
 import styles from '../../screens/Auth/Register/style';
@@ -19,12 +19,17 @@ const SexModal: React.FC<SexTypeProps> = ({
   dataProps,
 }) => {
   const [selectedSex, setSelectedSex] = useState('');
-
+  const [isSelected, setIsSelected] = useState(false);
   const handleConfirm = () => {
     onSelectedSex(selectedSex);
     onClose();
   };
-
+  // useEffect(() => {
+  //   if (visible) {
+  //     setSelectedSex(''); // Reset selectedSex khi modal mở
+  //     setIsSelected(false); // Reset trạng thái isSelected
+  //   }
+  // }, [visible]);
   const renderSex = ({item}: any) => {
     const isSelectedSex = selectedSex === item;
     console.log('isselectedSex', isSelectedSex);
@@ -41,6 +46,7 @@ const SexModal: React.FC<SexTypeProps> = ({
         <TouchableOpacity
           onPress={() => {
             setSelectedSex(item);
+            setIsSelected(true);
           }}
           style={[
             AppStyles.button,
@@ -76,7 +82,7 @@ const SexModal: React.FC<SexTypeProps> = ({
           style={{
             width: '70%',
             backgroundColor: 'white',
-            borderRadius: 15,
+            borderRadius: 5,
           }}>
           <Text style={[AppStyles.headerText, {marginVertical: 20}]}>
             Giới tính
@@ -96,6 +102,7 @@ const SexModal: React.FC<SexTypeProps> = ({
               customStyle={[{width: '30%'}]}
             />
             <AppButton
+              disabled={!isSelected}
               title="Xác nhận"
               onPress={handleConfirm}
               customStyle={[{width: '30%'}]}

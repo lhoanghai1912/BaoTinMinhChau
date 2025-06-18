@@ -62,7 +62,7 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
           style={{
             width: '90%',
             backgroundColor: 'white',
-            borderRadius: 15,
+            borderRadius: 5,
             padding: 20,
             alignItems: 'center',
           }}>
@@ -83,7 +83,7 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
               width: 50,
               height: 50,
               padding: 10,
-              borderRadius: '100%',
+              borderRadius:'100%',
               marginTop: 15,
             },
           ]}>
