@@ -207,7 +207,14 @@ const RegisterScreen1 = (props: Props) => {
         );
 
         if (response.userName) {
-          Alert.alert('Đăng kí thành công');
+          Toast.show({
+            type: 'success',
+            position: 'top',
+            text1: 'Success',
+            text2: `Đăng kí thành công `,
+            visibilityTime: 3000,
+            autoHide: true,
+          });
           const loginNow = await login(formData[6], formData[7]);
           if (loginNow.token) {
             console.log('Dữ liệu trả về từ đăng nhập', loginNow);
@@ -217,11 +224,25 @@ const RegisterScreen1 = (props: Props) => {
           }
         } else {
           console.log('erro else', response.errors);
-          Alert.alert('erro alert', response.errors || 'Có lỗi xảy ra');
+          Toast.show({
+            type: 'error',
+            position: 'top',
+            text1: 'Error',
+            text2: `${response.errors} `,
+            visibilityTime: 3000,
+            autoHide: true,
+          });
         }
       } catch (error) {
         console.log('Lỗi ', error);
-        Alert.alert('Lỗi đăng kí', 'Vui lòng thử lại');
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Errors',
+          text2: `${error} `,
+          visibilityTime: 3000,
+          autoHide: true,
+        });
       } finally {
         setIsLoading(false);
       }
@@ -231,7 +252,7 @@ const RegisterScreen1 = (props: Props) => {
     <View style={styles.container}>
       <NavBar title="Đăng kí ngay" onPress={() => navigation.goBack()} />
       {isLoading ? (
-        <LoadingScreen></LoadingScreen>
+        <LoadingScreen />
       ) : (
         <KeyboardAwareScrollView scrollEnabled>
           <View style={styles.body}>

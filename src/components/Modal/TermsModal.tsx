@@ -58,37 +58,40 @@ const TermsModal: React.FC<TermsModalProps> = ({visible, onClose}) => {
           alignItems: 'center',
           backgroundColor: 'rgba(52, 52, 52, 0.5)',
         }}>
-        <View
-          style={{
-            width: '90%',
-            backgroundColor: 'white',
-            borderRadius: 5,
-            padding: 20,
-            alignItems: 'center',
-          }}>
-          {loading ? (
-            <ActivityIndicator size="large" color="#820201" />
-          ) : (
-            <ScrollView>
-              <RenderHTML contentWidth={width} source={source} />
-            </ScrollView>
-          )}
-          {/* Nút Đóng */}
-        </View>
-        <TouchableOpacity
-          onPress={onClose}
-          style={[
-            AppStyles.button,
-            {
-              width: 50,
-              height: 50,
-              padding: 10,
-              borderRadius:'100%',
-              marginTop: 15,
-            },
-          ]}>
-          <Text style={[AppStyles.buttonText, {fontSize: 24}]}>X</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator size="large" color="#820201" />
+        ) : (
+          <View style={{alignItems: 'center'}}>
+            <View
+              style={{
+                width: '90%',
+                backgroundColor: 'white',
+                borderRadius: 5,
+                padding: 20,
+                alignItems: 'center',
+              }}>
+              <ScrollView>
+                <RenderHTML contentWidth={width} source={source} />
+              </ScrollView>
+              {/* Nút Đóng */}
+            </View>
+
+            <TouchableOpacity
+              onPress={onClose}
+              style={[
+                AppStyles.button,
+                {
+                  width: 50,
+                  height: 50,
+                  padding: 10,
+                  borderRadius: '100%',
+                  marginTop: 15,
+                },
+              ]}>
+              <Text style={[AppStyles.buttonText, {fontSize: 24}]}>X</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </Modal>
   );

@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import { post } from "../api";
+import Toast from "react-native-toast-message";
 
 export const otp = async(
     email: string,
@@ -13,7 +14,14 @@ export const otp = async(
         if(response.status ===200){
         }
         else{
-            Alert.alert('Lỗi',response.errors);
+                    Toast.show({
+                      type: 'error',
+                      position: 'top',
+                      text1: 'Error',
+                      text2: `${response.errors}`,
+                      visibilityTime: 3000,
+                      autoHide: true,
+                    });
             
         }
         return response;

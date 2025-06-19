@@ -11,6 +11,7 @@ import AppButton from '../AppButton';
 import App from '../../../App';
 import {useState} from 'react';
 import {otp} from '../../api/Modal/OTPApi';
+import Toast from 'react-native-toast-message';
 
 interface OTPProp {
   visible: boolean;
@@ -30,11 +31,16 @@ const OTPModal: React.FC<OTPProp> = ({visible, onClose, onSuccess}) => {
       if (response?.status === 200) {
         onClose();
         onSuccess(email);
-      } else {
-        Alert.alert('Không tìm thấy tài khoản', 'Vui lòng kiểm tra lại Email');
       }
     } catch (error) {
-      Alert.alert('lỗi');
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: `${error} `,
+        visibilityTime: 3000,
+        autoHide: true,
+      });
     } finally {
       setIsLoading(false);
     }

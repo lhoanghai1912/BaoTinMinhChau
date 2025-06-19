@@ -27,6 +27,7 @@ import ResetPasswodModal from '../../components/Modal/ResetPasswordModal';
 import {colors} from '../../components/Style/Colors';
 import EnterOtpModal from '../../components/Modal/EnterOtpModal';
 import {otp} from '../../api/Modal/OTPApi';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('lhoanghai');
@@ -42,8 +43,7 @@ const LoginScreen: React.FC = () => {
   const [resetEmail, setResetEmail] = useState(''); // giữ email từ OTPModal
   const [resetOtp, setResetOtp] = useState('');
 
-  const disabled =
-    username.length > 0 && password.length > 0 && checked == false;
+  const disabled = username && password && checked;
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
@@ -55,24 +55,37 @@ const LoginScreen: React.FC = () => {
         await AsyncStorage.setItem('accessToken', response.token);
         dispatch(setUserData({userData: response}));
         dispatch(login_redux({accessToken: response.token}));
-        Alert.alert(
-          'Đăng nhập thành công',
-          `Chào mừng ${response.user.fullName}`,
-        );
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: 'Welcome',
+          text2: `${response.user.fullName}`,
+          visibilityTime: 3000,
+          autoHide: true,
+        });
       } else {
         console.log('res1', response.errors);
-        Alert.alert('Lỗi đăng nhập', response.errors);
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Error',
+          text2: `${response.errors}`,
+          visibilityTime: 3000,
+          autoHide: true,
+        });
       }
     } catch (error) {
-      Alert.alert('Lỗi đăng nhập', 'Có lỗi xảy ra khi đăng nhập');
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: `Lỗi đăng nhập`,
+        visibilityTime: 3000,
+        autoHide: true,
+      });
     } finally {
       setIsLoading(false); // Dừng loading khi đã xong
     }
-  };
-  const handleOtpSubmit = otp => {
-    // Xử lý OTP sau khi người dùng nhập xong và nhấn "Xác nhận"
-    console.log('OTP đã nhập: ', otp);
-    // Gọi API hoặc logic xác thực OTP ở đây
   };
 
   return (
@@ -104,6 +117,12 @@ const LoginScreen: React.FC = () => {
                 </Text>
                 <View style={[styles.inputItem]}>
                   <TextInput
+                    underlineColorAndroid="transparent" // Ẩn viền mặc định Android
+                    autoCorrect={false} // Tắt autocorrect
+                    spellCheck={false} // Tắt spell check
+                    autoCapitalize="none" // Không viết hoa tự động
+                    textContentType="none" // Ngăn gợi ý mật khẩu/email...
+                    importantForAutofill="no" // Ngăn gợi ý từ autofill
                     placeholder="Username"
                     style={[AppStyles.textInput, {paddingLeft: 9}]}
                     onChangeText={text => setUsername(text)}
@@ -121,6 +140,12 @@ const LoginScreen: React.FC = () => {
                 </View>
                 <View style={[styles.inputItem]}>
                   <TextInput
+                    underlineColorAndroid="transparent" // Ẩn viền mặc định Android
+                    autoCorrect={false} // Tắt autocorrect
+                    spellCheck={false} // Tắt spell check
+                    autoCapitalize="none" // Không viết hoa tự động
+                    textContentType="none" // Ngăn gợi ý mật khẩu/email...
+                    importantForAutofill="no" // Ngăn gợi ý từ autofill
                     placeholder="Password"
                     style={[AppStyles.textInput, {paddingLeft: 9}]}
                     onChangeText={setPassword}
@@ -184,7 +209,7 @@ const LoginScreen: React.FC = () => {
                 </View>
                 <View style={{marginBottom: 16, alignItems: 'center'}}>
                   <AppButton
-                    disabled={disabled}
+                    disabled={!disabled}
                     title="Đăng nhập"
                     onPress={handleLogin}
                   />

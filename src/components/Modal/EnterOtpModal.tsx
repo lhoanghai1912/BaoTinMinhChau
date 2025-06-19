@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Modal,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AppButton from '../AppButton';
 import {apiAuthentication} from '../../api/Modal/OtpAuthentication';
+import Toast from 'react-native-toast-message';
 
 interface EnterOtpProp {
   visible: boolean;
@@ -30,7 +31,12 @@ const EnterOtpModal: React.FC<EnterOtpProp> = ({
 
   // Tạo refs cho từng ô nhập OTP
   const inputRefs = useRef([]);
-
+  useEffect(() => {
+    if (visible) {
+      setOtp(['', '', '', '', '', '']); // Reset về rỗng mỗi khi mở modal
+      setError(false); // Reset lỗi nếu có
+    }
+  }, [visible]);
   const handleOtpChange = (text, index) => {
     const newOtp = [...otp];
     newOtp[index] = text; // Cập nhật ký tự OTP tại ô tương ứng
@@ -55,13 +61,17 @@ const EnterOtpModal: React.FC<EnterOtpProp> = ({
         console.log('data back from ResetPasswod', response);
         if (response.status === 200) {
           onSuccess(otpString); // Gửi mã OTP nếu hợp lệ
-
           onClose(); // Đóng modal
-        } else {
-          Alert.alert('Lỗi', response.errors);
         }
       } catch (error) {
-        Alert.alert('error', error);
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: 'Error',
+          text2: `${error} `,
+          visibilityTime: 3000,
+          autoHide: true,
+        });
       }
     } else {
       setError(true); // Nếu mã OTP không hợp lệ, hiển thị lỗi

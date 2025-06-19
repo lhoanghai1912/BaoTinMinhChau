@@ -1,5 +1,6 @@
 import {Alert} from 'react-native';
 import {post} from '../api';
+import Toast from 'react-native-toast-message';
 
 export const apiAuthentication = async (
   email: string,
@@ -14,7 +15,14 @@ export const apiAuthentication = async (
     const response = await post<any>(apiUrl, data);
     if (response.status === 200) {
     } else {
-      Alert.alert('Lỗi', response.errors);
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: `${response.errors}`,
+        visibilityTime: 3000,
+        autoHide: true,
+      });
     }
     return response;
   } catch (error) {

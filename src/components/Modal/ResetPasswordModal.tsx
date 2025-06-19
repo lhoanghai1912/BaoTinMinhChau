@@ -1,9 +1,12 @@
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Modal,
+  StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import AppStyles from '../Style/AppStyle';
@@ -12,6 +15,8 @@ import App from '../../../App';
 import {useState} from 'react';
 import {resetpw} from '../../api/Modal/ResetPassword';
 import Toast from 'react-native-toast-message';
+import {colors} from '../Style/Colors';
+import images from '../../constants/Images/images';
 
 interface ResetPasswodProp {
   visible: boolean;
@@ -26,9 +31,10 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
   email,
   otp,
 }) => {
-  const [resetPassword, setresetPassword] = useState('');
+  const [resetPassword, setResetPassword] = useState('');
   const [confirmResetPassword, setConfirmResetPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false); // Thêm state cho Loading
+  const [isVisible, setIsVisible] = useState(false);
   const handleConfirm = async () => {
     if (resetPassword !== confirmResetPassword) {
       Toast.show({
@@ -45,10 +51,11 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
     setIsLoading(true);
     try {
       const response = await resetpw(otp, email, resetPassword);
-      console.log('data back from ResetPasswod', response);
-      onClose();
+      if (response.status === 200) {
+        onClose();
+      }
     } catch (error) {
-      Alert.alert('lỗi');
+      console.log('lỗi');
     } finally {
       setIsLoading(false);
     }
@@ -76,27 +83,82 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
           {isLoading ? (
             <ActivityIndicator size="large" color="#820201" />
           ) : (
-            <View>
+            <View style={{paddingHorizontal: 9}}>
               <Text style={[AppStyles.headerText, {marginVertical: 20}]}>
                 Cập nhật mật khẩu mới
               </Text>
 
-              <TextInput
-                placeholder="Nhập mật khẩu mới"
-                onChangeText={text => setresetPassword(text)}
-                value={resetPassword}
-                style={[
-                  AppStyles.textInput,
-                  {width: '85%', alignSelf: 'center'},
-                ]}></TextInput>
-              <TextInput
-                placeholder="Nhập lại mật khẩu "
-                onChangeText={text => setConfirmResetPassword(text)}
-                value={confirmResetPassword}
-                style={[
-                  AppStyles.textInput,
-                  {width: '85%', alignSelf: 'center'},
-                ]}></TextInput>
+              <View style={[styles.inputItem]}>
+                <TextInput
+                  underlineColorAndroid="transparent" // Ẩn viền mặc định Android
+                  autoCorrect={false} // Tắt autocorrect
+                  spellCheck={false} // Tắt spell check
+                  autoCapitalize="none" // Không viết hoa tự động
+                  textContentType="none" // Ngăn gợi ý mật khẩu/email...
+                  importantForAutofill="no" // Ngăn gợi ý từ autofill
+                  placeholder="ResetPassword"
+                  style={[AppStyles.textInput, {paddingLeft: 9}]}
+                  onChangeText={setResetPassword}
+                  secureTextEntry={isVisible}
+                  value={resetPassword}></TextInput>
+                <View style={styles.iconGroup}>
+                  <TouchableOpacity
+                    style={{
+                      display: resetPassword.length > 0 ? 'flex' : 'none',
+                    }}
+                    onPress={() => setIsVisible(!isVisible)}>
+                    <Image
+                      source={isVisible ? images.show : images.hide}
+                      style={AppStyles.icon}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      display: resetPassword.length > 0 ? 'flex' : 'none',
+                    }}
+                    onPress={() => {
+                      setResetPassword('');
+                    }}>
+                    <Image source={images.clear} style={AppStyles.icon}></Image>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={[styles.inputItem]}>
+                <TextInput
+                  underlineColorAndroid="transparent" // Ẩn viền mặc định Android
+                  autoCorrect={false} // Tắt autocorrect
+                  spellCheck={false} // Tắt spell check
+                  autoCapitalize="none" // Không viết hoa tự động
+                  textContentType="none" // Ngăn gợi ý mật khẩu/email...
+                  importantForAutofill="no" // Ngăn gợi ý từ autofill
+                  placeholder="ConfirmResetPassword"
+                  style={[AppStyles.textInput, {paddingLeft: 9}]}
+                  onChangeText={setConfirmResetPassword}
+                  secureTextEntry={isVisible}
+                  value={confirmResetPassword}></TextInput>
+                <View style={styles.iconGroup}>
+                  <TouchableOpacity
+                    style={{
+                      display:
+                        confirmResetPassword.length > 0 ? 'flex' : 'none',
+                    }}
+                    onPress={() => setIsVisible(!isVisible)}>
+                    <Image
+                      source={isVisible ? images.show : images.hide}
+                      style={AppStyles.icon}></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{
+                      display:
+                        confirmResetPassword.length > 0 ? 'flex' : 'none',
+                    }}
+                    onPress={() => {
+                      setConfirmResetPassword('');
+                    }}>
+                    <Image source={images.clear} style={AppStyles.icon}></Image>
+                  </TouchableOpacity>
+                </View>
+              </View>
               <View
                 style={{
                   marginVertical: 9,
@@ -123,4 +185,72 @@ const ResetPasswodModal: React.FC<ResetPasswodProp> = ({
     </Modal>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.red,
+    paddingHorizontal: 16,
+  },
+
+  //Header
+  header: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  headerText: {
+    fontSize: 40,
+    marginBottom: 9,
+    color: colors.yellow,
+    fontWeight: 'bold',
+  },
+
+  //Body
+  body: {
+    flex: 1,
+    alignItems: 'center',
+  },
+
+  wrapContent: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 30,
+  },
+
+  inputItem: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 9,
+  },
+
+  iconGroup: {
+    flexDirection: 'row',
+    position: 'absolute',
+    resizeMode: 'contain', // Đảm bảo logo không bị méo
+    // zIndex: 1,
+    justifyContent: 'space-between',
+    width: 70,
+    right: 10,
+    bottom: '25%',
+  },
+  forgotPassword: {
+    marginBottom: 9,
+    marginTop: 5,
+  },
+  terms: {
+    // paddingHorizontal:9,
+    // flex:1,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+
+  //Footer
+  footer: {
+    flex: 1,
+  },
+});
 export default ResetPasswodModal;

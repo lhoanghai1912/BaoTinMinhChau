@@ -1,12 +1,14 @@
-import { Alert } from "react-native";
+import {Alert} from 'react-native';
 
 const url_base = 'http://posapi.foxai.com.vn:8386/api/';
 
 //GET
 export const get = async <T,>(url: string, params?: object): Promise<T> => {
   try {
-    const queryParams = params ? `?${new URLSearchParams(params as Record<string, string>)}` : '';
-    const response = await fetch(`${url_base}${url}${queryParams}`);    
+    const queryParams = params
+      ? `?${new URLSearchParams(params as Record<string, string>)}`
+      : '';
+    const response = await fetch(`${url_base}${url}${queryParams}`);
     if (!response.ok) {
       throw new Error('Error fetching data');
     }
@@ -26,11 +28,12 @@ export const post = async <T,>(url: string, data: object): Promise<T> => {
       },
       body: JSON.stringify(data),
     });
-    console.log('dataAPi',data);
-    
-    
+    console.log('dataAPi', data);
+
     if (!response.ok) {
-      console.log('erro:',response);
+      console.log('erro:', response);
+    } else {
+      console.log('data:', response);
     }
     return await response.json();
   } catch (error) {
