@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Modal, Text, TouchableOpacity, View} from 'react-native';
 import AppStyles from '../Style/AppStyle';
-import styles from '../../screens/Auth';
+import styles from '../../screens/Auth/Register/style';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AppButton from '../AppButton';
 
 interface SexTypeProps {
   visible: boolean;
@@ -17,23 +18,49 @@ const SexModal: React.FC<SexTypeProps> = ({
   onSelectedSex,
   dataProps,
 }) => {
-  const [isSelectingMale, setIsSelectingMale] = useState(false);
-  const [isSelectingFemale, setIsSelectingFemale] = useState(false);
   const [selectedSex, setSelectedSex] = useState('');
-  const handleSelectSex = (Sex: string) => {
-    setSelectedSex(Sex);
-  };
+  const [isSelected, setIsSelected] = useState(false);
   const handleConfirm = () => {
-    if (selectedSex) {
-      onSelectedSex(selectedSex);
-    }
+    onSelectedSex(selectedSex);
     onClose();
   };
+  // useEffect(() => {
+  //   if (visible) {
+  //     setSelectedSex(''); // Reset selectedSex khi modal mở
+  //     setIsSelected(false); // Reset trạng thái isSelected
+  //   }
+  // }, [visible]);
+  const renderSex = ({item}: any) => {
+    const isSelectedSex = selectedSex === item;
+    console.log('isselectedSex', isSelectedSex);
 
-  const renderSex = (item: any) => {
     return (
-      <View>
-        <Text>Render</Text>
+      <View
+        style={[
+          {
+            flex: 1,
+            alignItems: 'center',
+            width: '100%',
+          },
+        ]}>
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedSex(item);
+            setIsSelected(true);
+          }}
+          style={[
+            AppStyles.button,
+            {
+              width: '90%',
+              height: 50,
+              marginBottom: 9,
+              backgroundColor: isSelectedSex ? '#820201' : 'lightgray',
+            },
+          ]}>
+          <Text style={[AppStyles.buttonText, {fontSize: 24}]}>
+            {item.name}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -47,92 +74,39 @@ const SexModal: React.FC<SexTypeProps> = ({
         style={{
           flex: 1,
           justifyContent: 'center',
+
           alignItems: 'center',
           backgroundColor: 'rgba(52, 52, 52,0.5)',
         }}>
         <View
           style={{
-            // padding: 20,
             width: '70%',
-            justifyContent: 'center',
-            alignItems: 'center',
             backgroundColor: 'white',
-            borderRadius: 15,
-            alignContent: 'center',
+            borderRadius: 5,
           }}>
           <Text style={[AppStyles.headerText, {marginVertical: 20}]}>
             Giới tính
           </Text>
           <FlatList data={dataProps} renderItem={renderSex} />
-          {/* <TouchableOpacity
-            onPress={() => {
-              setSelectedSex('Nam');
-            }}
-            style={[
-              AppStyles.button,
-              {
-                height: 50,
-                backgroundColor:
-                  selectedSex === 'Nam' ? 'darkred' : 'lightgray',
-              },
-            ]}>
-            <Text
-              style={[AppStyles.buttonText, {fontSize: 24}]}
-              onPress={() => {
-                handleSelectSex('Nam');
-                setIsSelectingMale(true);
-              }}>
-              Nam
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedSex('Nữ');
-            }}
-            style={[
-              AppStyles.button,
-              {
-                height: 50,
-                backgroundColor: selectedSex === 'Nữ' ? 'darkred' : 'lightgray',
-              },
-            ]}>
-            <Text
-              style={[AppStyles.buttonText, {fontSize: 24}]}
-              onPress={() => {
-                handleSelectSex('Nữ');
-                setIsSelectingFemale(!isSelectingFemale);
-              }}>
-              Nữ
-            </Text>
-          </TouchableOpacity> */}
           <View
             style={{
-              marginTop: 20,
+              marginVertical: 9,
               flexDirection: 'row',
               justifyContent: 'space-around',
               alignSelf: 'center',
               width: '95%',
             }}>
-            <TouchableOpacity
-              onPress={() => {
-                onClose();
-              }}
-              style={[
-                AppStyles.button,
-                {width: '20%', height: 50, marginVertical: 5},
-              ]}>
-              <Text style={AppStyles.buttonText}>Hủy bỏ</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                handleConfirm();
-              }}
-              style={[
-                AppStyles.button,
-                {width: '20%', height: 50, marginVertical: 10},
-              ]}>
-              <Text style={AppStyles.buttonText}>Xác nhận</Text>
-            </TouchableOpacity>
+            <AppButton
+              title="Hủy bỏ"
+              onPress={onClose}
+              customStyle={[{width: '30%'}]}
+            />
+            <AppButton
+              disabled={!isSelected}
+              title="Xác nhận"
+              onPress={handleConfirm}
+              customStyle={[{width: '30%'}]}
+            />
           </View>
         </View>
       </View>

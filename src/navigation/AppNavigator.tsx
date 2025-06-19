@@ -1,48 +1,49 @@
-import {Alert, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import LoginStack from './AuthNavigator'; // Adjust the path as needed
 import React, {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {navigationRef} from './RootNavigator';
+import {NavigationContainer} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+
+import SplashScreen from '../screens/Splash';
+import LoadingScreen from '../components/Loading';
 import AppStackScreen from './AppStackNavigator';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-// import LoadingScreen from '../component/loading_index';
+import LoginStack from './AuthNavigator';
+import {navigationRef} from './RootNavigator';
 
 const AppNavigator = () => {
-  const [hasToken, setHasToken] = useState(false);
-  const {userData, isAuthenticated} = useSelector((state: any) => state.user);
-  const [isLoading, setIsLoading] = useState(true);
+  const {accessToken} = useSelector((state: any) => state.user); // dùng accessToken từ Redux
+
+  const [isSplashVisible, setIsSplashVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const checkToken = async () => {
-      const token = await AsyncStorage.getItem('accessToken');
-      // console.log('token1111124', await AsyncStorage.getItem('accessToken'));
-      if (!token || isAuthenticated == false) {
-        setHasToken(false);
-        console.log('No token found, redirecting to login');
-      } else if (token && isAuthenticated == true) {
-        console.log('token', token);
+    const timer = setTimeout(() => {
+      setIsSplashVisible(false); // splash 2s
+    }, 2000);
 
-        setHasToken(true);
-      }
-      setIsLoading(false);
-    };
-    checkToken();
-  }, [userData]);
+    return () => clearTimeout(timer);
+  }, []);
 
   const onNavigationStateChange = () => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 500);
+    // setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 3000); // loading ngắn khi chuyển tab
   };
+
+  console.log('isLoadingisLoading===>', isLoading);
+
   return (
-    <>
-      <NavigationContainer
-        ref={navigationRef}
-        onStateChange={onNavigationStateChange}>
-        {hasToken ? <AppStackScreen /> : <LoginStack />}
-      </NavigationContainer>
-      {/* {isLoading && <LoadingScreen />} */}
-    </>
+    <NavigationContainer
+      ref={navigationRef}
+      onStateChange={onNavigationStateChange}>
+      {isSplashVisible ? (
+        <SplashScreen />
+      ) : isLoading ? (
+        <LoadingScreen />
+      ) : accessToken ? ( // Dùng accessToken để điều hướng
+        <AppStackScreen />
+      ) : (
+        <LoginStack />
+      )}
+    </NavigationContainer>
   );
 };
+
 export default AppNavigator;

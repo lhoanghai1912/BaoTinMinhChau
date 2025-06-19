@@ -1,6 +1,6 @@
 import React from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
-import LoginScreen from './src/screens/Login';
+import LoginScreen from './src/screens/Auth';
 import Toast from 'react-native-toast-message'; // Import Toast component
 import {NavigationContainer} from '@react-navigation/native'; // Import NavigationContainer
 import {createStackNavigator} from '@react-navigation/stack'; // Import createStackNavigator
@@ -15,9 +15,12 @@ function App(): React.JSX.Element {
     //   <RootNavigator />
     //   <Toast />
     // </View>
-    <Provider store={store}>
-      <AppNavigator />
-    </Provider>
+    <>
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+      <Toast />
+    </>
   );
 }
 
